@@ -1,0 +1,68 @@
+function [ output_args ] = SearchForShortestDiameter(SmallerSpline, BiggerSpline, TracePointsOnSmallerSpline,TracePointsOnBiggerSpline )
+%UNTÝTLED Summary of this function goes here
+%   Detailed explanation goes here
+
+
+% size of SmallerSpline and BiggerSpline are same
+% size of TracePointsOnSmallerSpline and TracePointsOnBiggerSpline are same
+
+[a,b] = size(SmallerSpline);
+[c,d] = size(TracePointsOnSmallerSpline);
+
+% repeat for each trace
+for i = 1:1:c
+    pointOnSmallerSpline = TracePointsOnSmallerSpline(i,:);
+    pointOnBiggerSpline = TracePointsOnBiggerSpline(i,:);
+    
+    % find the index of the point in the spline matrix
+    
+    for j=1:1:a
+        
+        if(pointOnBiggerSpline == BiggerSpline(j,:))
+            pointIndex = j;
+            break;
+        end
+        
+    end
+    
+    StartIndex = pointIndex - 10;
+    StopIndex = pointIndex + 10;
+    % bu indexlerin array indexi dýþýna taþmalarý durumu handle edilmeli
+    
+    % eðer baþlangýç ve bitiþ indexleri sýnýr dýþýndaysa, sýnýr deðerlere
+    % set et
+    if(StartIndex < 1)
+        StartIndex = 1;
+    end
+    
+    if(StopIndex > a)
+        StopIndex = a;
+    end
+    
+    
+    for k=StartIndex:1:StopIndex
+        
+        pointOnBiggerSpline = BiggerSpline(k,:);
+        distance = FindDistanceBetweenTwoPoints(pointOnSmallerSpline, pointOnBiggerSpline);
+        
+        if(k == StartIndex)
+            minDistance = distance;
+        elseif(distance < minDistance)
+            minDistance = distance;
+            BiggerSpline(k,:)
+            
+        end
+        
+            
+        
+    end
+    
+    
+    
+    
+end
+
+
+
+end
+
